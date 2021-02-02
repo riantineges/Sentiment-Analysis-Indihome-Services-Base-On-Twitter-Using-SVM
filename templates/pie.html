@@ -1,0 +1,144 @@
+{%extends "bootstrap/base.html" %}
+
+{% block content %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels">
+
+    </script>
+  </head>
+  <body>
+    <!-- As a heading -->
+    <div class="container">
+      <div class="jumbotron">
+         <h1 class="display-4">Analisis Sentimen</h1>
+         <p class="lead">Ini merupakan aplikasi sederhana Semi Automated Machine Learning.</p>
+         <hr class="my-4">
+
+        </div>
+    <!-- <div class="jumbotron">
+      <h1 class="display-4">Analisis Sentimen</h1>
+      <p class="lead">Ini merupakan aplikasi sederhana Semi Automated Machine Learning.</p>
+      <hr class="my-4">
+      <p><a href="{{ url_for('index')}}" type="button" class="btn btn-primary" > Refresh</a></p> -->
+      <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div> -->
+
+    <!-- <div class="container">
+      <div class="jumbotron text-center">
+        <h2 class="display-3">Analisis Sentimen</h2>
+
+      </div> -->
+
+      <div class="container">
+        <div class="main">
+          <div class="row">
+            <div class="col-md-6" style="background-color: #ADD8E6">
+              <br>
+              <h3 style="color:#000">Upload File CSV</h3>
+              <form method="post" action="/hasil " enctype=multipart/form-data><br><br>
+                <div class="form-group">
+                  <input type="file" name="file">
+                  <br>
+                </div>
+                <input type="submit" value="PROSES" class="btn btn-primary mb-2">
+                <input type="reset" value="RESET" class="btn btn-danger mb-2">
+              </form>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<center>
+    <h3>{{title}}</h3>
+<br>
+</center>
+<div class="container">
+  <canvas id="chart" width="250" height="250"></canvas>
+  <script>
+    var pieData = [
+      {% for item, label, colors in set %}
+        {
+          value: {{item}},
+          label: "{{label}}",
+          color : "{{colors}}"
+        },
+      {% endfor %}
+    ];
+    var options = {
+      legend: {
+        position: "top"
+      },
+    plugins: {
+      datalabels: {
+        color: "#fff",
+        anchor: "end",
+        align: "start",
+        offset: -10,
+        borderWidth: 2,
+        borderColor: "#fff",
+        borderRadius: 25,
+        backgroundColor: (context) => {
+          return context.pieData.backgroundColor;
+        },
+        font: {
+          weight: "bold",
+          size: "10",
+        },
+      }
+    }
+  };
+    // get bar chart canvas
+    var mychart = document.getElementById("chart").getContext("2d");
+    steps = 10
+    // max = {{ max }}
+
+    // draw pie chart
+    new Chart(mychart).Pie(pieData,options);
+  </script>
+</div>
+
+    <!-- // var barData = {
+    //   labels: [
+    //   {% for item in labels %}
+    //   "{{item}}",
+    //   {% endfor %}
+    //   ],
+    //
+    //   datasets :[{
+    //     fillColor: "rgba(151,187,205,0.2)",
+    //     strokeColor: "rgba(151,187,205,1)",
+    //     pointColor: "rgba(151,187,205,1)",
+    //     data : [
+    //     {% for item in values %}
+    //     "{{item}}",
+    //     {% endfor %}
+    //     ]
+    //   }
+    // ]
+    // }
+    // var myChart= document.getElementById("chart2").getContext("2d");
+    // steps = 10
+    //
+    // new Chart (mychart).Bar(barData, {
+    // scaleOverride: true,
+    //    scaleSteps: steps,
+    //    scaleStepWidth: Math.ceil(max / steps),
+    //    scaleStartValue: 0,
+    //    scaleShowVerticalLines: true,
+    //    scaleShowGridLines : true,
+    //    barShowStroke : true,
+    //    scaleShowLabels: true
+    // }); -->
+
+    <p>{{message}}</p>
+
+  </body>
+</html>
+
+{% endblock %}

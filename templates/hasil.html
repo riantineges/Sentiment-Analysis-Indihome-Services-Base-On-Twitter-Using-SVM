@@ -1,0 +1,65 @@
+{%extends "bootstrap/base.html" %}
+
+{% block content %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels">
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+         <h1 class="display-4">Hasil Analisis Sentimen</h1>
+         <p class="lead">Ini merupakan aplikasi sederhana Semi Automated Machine Learning.</p>
+         <hr class="my-4">
+         <p><a href="{{ url_for('index')}}" type="button" class="btn btn-primary">Kembali</a></p>
+
+        </div>
+    <center>
+        <h2>{{title}}</h2>
+    <br>
+    </center>
+<table>
+<tr>
+  <th width="300px">
+    <canvas id="chart" width="250" height="250"></canvas>
+    <script>
+      var pieData = [
+        {% for item, label, colors in set %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{colors}}"
+          },
+        {% endfor %}
+      ];
+      // get bar chart canvas
+      var mychart = document.getElementById("chart").getContext("2d");
+      steps = 10
+      // max = {{ max }}
+
+      // draw pie chart
+      new Chart(mychart).Pie(pieData);
+    </script>
+  </th>
+
+  <th>
+  <p style="font-size:120%;">Persentase Tweet Positif : {{x3}} %</p>
+  <p style="font-size:120%;">Jumlah Tweet Positif : {{x}}</p>
+  <p style="font-size:120%;">Persentase Tweet Negatif : {{x4}} %</p>
+  <p style="font-size:120%;">Jumlah Tweet Negatif : {{y}}</p>
+  <p style="font-size:120%;">Total Data :{{z}} tweets</p>
+  </th>
+</tr>
+</table>
+  </body>
+</html>
+
+{% endblock %}
